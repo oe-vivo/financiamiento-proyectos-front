@@ -39,6 +39,17 @@ export default {
         return Promise.reject(error);
       });
   },
+  addProyecto(proyecto) {
+    return axios.post(`${API_URL}/proyectos`, proyecto);
+  },
+
+  editProyecto(proyecto) {
+    return axios.put(`${API_URL}/proyectos/${proyecto.id}`, proyecto);
+  },
+
+  deleteProyecto(id) {
+    return axios.delete(`${API_URL}/proyectos/${id}`);
+  },
 
   // Aquí puedes agregar más funciones según sea necesario
 

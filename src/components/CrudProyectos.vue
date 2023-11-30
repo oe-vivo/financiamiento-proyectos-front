@@ -2,7 +2,7 @@
   <v-container>
     <v-card>
       <v-card-title>
-        Donatarios
+        Proyectos
         <v-spacer></v-spacer>
         <v-btn color="primary" @click="addItem">Agregar</v-btn>
       </v-card-title>
@@ -63,7 +63,7 @@
 
 <script>
 import { ref, onMounted } from 'vue';
-import AuthService from '../DonatariosService.js'; // Asegúrate de que la ruta sea correcta
+import AuthService from '../AuthService.js'; // Asegúrate de que la ruta sea correcta
 import {
   VContainer,
   VCard,
@@ -94,7 +94,7 @@ export default {
     const headers = ref([
       { text: 'ID', value: 'id' },
       { text: 'Nombre', value: 'nombre' },
-      { text: 'rfc', value: 'rfc' },
+      { text: 'Descripción', value: 'descripcion' },
       { text: 'Acciones', value: 'actions', sortable: false }
     ]);
 
@@ -103,7 +103,7 @@ export default {
     onMounted(cargarRegistros);
 
     function cargarRegistros() {
-      AuthService.getDonatarios()
+      AuthService.getRegistrosProyectos()
         .then(data => {
           items.value = data;
         })
@@ -114,12 +114,12 @@ export default {
     }
 
     function addItem(newItem) {
-      AuthService.addDonatario(newItem)
+      AuthService.addProyecto(newItem)
         .then(() => cargarRegistros())
         .catch(error => console.error('Error al agregar:', error));
     }
     function deleteItem(item) {
-      AuthService.deleteDonatario(item.id)
+      AuthService.deleteProyecto(item.id)
         .then(() => cargarRegistros())
         .catch(error => console.error('Error al eliminar:', error));
     }
