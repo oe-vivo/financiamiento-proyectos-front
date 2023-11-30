@@ -95,7 +95,7 @@ export default {
       { text: 'ID', value: 'id' },
       { text: 'Nombre', value: 'nombre' },
       { text: 'Descripción', value: 'descripcion' },
-      { text: 'Acciones', value: 'actions', sortable: false }
+      { text: 'Acciones', value: 'actions', sortable: true }
     ]);
 
     const items = ref([]);

@@ -63,6 +63,7 @@ export default {
         .catch(error => {
           console.error('Error al iniciar sesión:', error);
           // Manejo de errores, por ejemplo, mostrar un mensaje al usuario
+          prompt("Credenciales no válidas");
         });
     }
   },

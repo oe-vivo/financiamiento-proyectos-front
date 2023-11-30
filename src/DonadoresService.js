@@ -23,12 +23,4 @@ export default {
   deleteDonador(id) {
     return axios.delete(`${API_URL}/donadores/${id}`);
   },
-  getRFC(id){
-    return axios.get(`${API_URL}/:rfc`)
-      .then(response => response.data)
-      .catch(error => {
-        console.error('Error al obtener donadores:', error);
-        return Promise.reject(error);
-      });
-  }
 };

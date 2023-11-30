@@ -134,7 +134,7 @@ export default {
     }
 
     function saveEdit() {
-      AuthService.editProyecto(editedItem.value)
+      AuthService.editDonatario(editedItem.value)
         .then(() => {
           cargarRegistros();
           closeEdit();

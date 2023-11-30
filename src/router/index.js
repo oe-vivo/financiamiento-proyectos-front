@@ -22,12 +22,12 @@ const routes = [
       {
         path: '/donadores', // Cambia '/proyectos' por la URL que desees
         name: 'Donadores', // Nombre de la ruta
-        component: () => import('@/views/Proyectos.vue'), // Componente de la vista de proyectos
+        component: () => import('@/views/Donadores.vue'), // Componente de la vista de proyectos
       },
       {
         path: '/donatarios', // Cambia '/proyectos' por la URL que desees
         name: 'Donatarios', // Nombre de la ruta
-        component: () => import('@/views/Proyectos.vue'), // Componente de la vista de proyectos
+        component: () => import('@/views/Donatorios.vue'), // Componente de la vista de proyectos
       },
       {
         path: '/', // Cambia '/proyectos' por la URL que desees

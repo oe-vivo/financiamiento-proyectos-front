@@ -46,6 +46,7 @@
                   v-model="editedItem.descripcion"
                 ></v-textarea>
               </v-col>
+
               <!-- Agrega más campos si es necesario -->
             </v-row>
           </v-container>
