@@ -11,60 +11,27 @@
 
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
-          <v-btn
-            href=""
-            min-width="164"
-            rel="noopener noreferrer"
-            target="_blank"
-            variant="text"
-          >
-            <v-icon
-              icon="mdi-account-multiple-plus"
-              size="large"
-              start
-            />
-
+          <router-link to="/donadores" tag="v-btn" min-width="164" rel="noopener noreferrer"  variant="text">
+            <v-icon icon="mdi-account-group" size="large" start />
             Donadores
-          </v-btn>
+          </router-link>
         </v-col>
 
         <v-col cols="auto">
-          <v-btn
-            color="primary"
-            href=""
-            min-width="228"
-            rel="noopener noreferrer"
-            size="x-large"
-            target="_blank"
-            variant="flat"
-          >
-            <v-icon
-              icon="mdi-folder"
-              size="large"
-              start
-            />
-
+          <router-link to="/proyectos" tag="v-btn" min-width="164" rel="noopener noreferrer"  variant="text">
+            <v-icon icon="mdi-account-group" size="large" start />
             Proyectos
-          </v-btn>
+          </router-link>
         </v-col>
 
         <v-col cols="auto">
-          <v-btn
-            href=""
-            min-width="164"
-            rel="noopener noreferrer"
-            target="_blank"
-            variant="text"
-          >
-            <v-icon
-              icon="mdi-account-group"
-              size="large"
-              start
-            />
-
-            Donatorios
-          </v-btn>
+          <router-link to="/donatarios" tag="v-btn" min-width="164" rel="noopener noreferrer"  variant="text">
+            <v-icon icon="mdi-account-group" size="large" start />
+            Donatarios
+          </router-link>
         </v-col>
+
+
       </v-row>
     </v-responsive>
   </v-container>

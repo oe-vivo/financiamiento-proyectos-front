@@ -1,11 +1,17 @@
-<script setup>
-
-</script>
-
 <template>
 
+  <MyCrudTable />
+  <barra-lateral></barra-lateral>
 </template>
 
-<style scoped>
+<script>
+import MyCrudTable from '@/components/CrudDonatarios.vue';
+import BarraLateral from "@/components/BarraLateral.vue"; // Asegúrate de que la ruta sea correcta
 
-</style>
+export default {
+  components: {
+    BarraLateral,
+    MyCrudTable
+  }
+}
+</script>

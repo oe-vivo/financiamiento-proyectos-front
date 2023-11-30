@@ -1,20 +1,13 @@
-/**
- * main.js
- *
- * Bootstraps Vuetify and other plugins then mounts the App`
- */
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
+import '@mdi/font/css/materialdesignicons.css';
+import { createVuetify } from 'vuetify';
+import 'vuetify/styles'
+const app = createApp(App);
 
-// Components
-import App from './App.vue'
+const vuetify = createVuetify(); // Opciones de Vuetify si las hay
+app.use(vuetify);
+app.use(router); // Asegúrate de usar el router después de vuetify
 
-// Composables
-import { createApp } from 'vue'
-
-// Plugins
-import { registerPlugins } from '@/plugins'
-
-const app = createApp(App)
-
-registerPlugins(app)
-
-app.mount('#app')
+app.mount('#app');
