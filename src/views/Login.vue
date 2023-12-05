@@ -2,7 +2,6 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="12" sm="8" md="4">
-        <!-- Animación al cargar el card de login con un fondo oscuro -->
         <v-card class="elevation-12 login-card" data-aos="fade-up" data-aos-duration="1000">
           <v-toolbar color="primary" dark>
             <v-toolbar-title>Login</v-toolbar-title>
@@ -28,8 +27,9 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <!-- Animación al pasar el mouse sobre el botón -->
             <v-btn color="primary" class="animated-button" @click="login">Ingresar</v-btn>
+            <!-- Botón de Inicio de Sesión con Google -->
+            <v-btn color="red" @click="handleLoginWithGoogle">Iniciar Sesión con Google</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import AuthService from '../AuthService.js';
 export default {
   data() {
@@ -63,12 +64,38 @@ export default {
         .catch(error => {
           console.error('Error al iniciar sesión:', error);
           // Manejo de errores, por ejemplo, mostrar un mensaje al usuario
-          prompt("Credenciales no válidas");
+          alert("Credenciales no válidas");
         });
+    },
+    async handleLoginWithGoogle() {
+      try {
+        const auth2 = gapi.auth2.getAuthInstance();
+        const googleUser = await auth2.signIn();
+        const idToken = googleUser.getAuthResponse().id_token;
+
+        // Envía el idToken a tu backend
+        const response = await axios.post('http://localhost:3000/api/auth/google', { token: idToken });
+        const { token } = response.data;
+
+        // Manejo de la respuesta
+        // Por ejemplo, guardar el JWT en localStorage y actualizar el estado de autenticación
+        localStorage.setItem('jwt', token);
+        this.$router.push('/home'); // Redirige al usuario a una ruta después del login
+      } catch (error) {
+        console.error('Error al iniciar sesión con Google:', error);
+      }
     }
   },
+  mounted() {
+    // Asegúrate de que el SDK de Google esté cargado y listo
+    window.gapi.load('auth2', function() {
+      window.gapi.auth2.init();
+    });
+  }
+
 };
 </script>
+
 
 <style>
 /* Animación para el botón */

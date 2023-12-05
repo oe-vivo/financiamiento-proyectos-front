@@ -6,7 +6,7 @@
       >
         <v-list>
           <v-list-item
-            prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
+            prepend-avatar=""
             title="Sistema de Donaciones"
             subtitle="Impulsando Proyectos"
           ></v-list-item>

@@ -26,10 +26,11 @@
     </v-card>
 
     <!-- Diálogo para Edición -->
+    <!-- Diálogo para Edición -->
     <v-dialog v-model="editDialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="text-h5">Editar Registro</span>
+          <span class="text-h5">Editar Donador</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -41,13 +42,21 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-textarea
-                  label="Descripción"
-                  v-model="editedItem.descripcion"
-                ></v-textarea>
+                <v-text-field
+                  label="RFC"
+                  v-model="editedItem.rfc"
+                ></v-text-field>
               </v-col>
-
-              <!-- Agrega más campos si es necesario -->
+              <!-- Menú desplegable para seleccionar el proyecto -->
+              <v-col cols="12">
+                <v-select
+                  :items="proyectos"
+                  item-text="nombre"
+                item-value="id"
+                v-model="editedItem.proyectoId"
+                label="Seleccionar Proyecto">
+                </v-select>
+              </v-col>
             </v-row>
           </v-container>
         </v-card-text>
@@ -65,6 +74,7 @@
 <script>
 import { ref, onMounted } from 'vue';
 import AuthService from '../DonadoresService.js'; // Asegúrate de que la ruta sea correcta
+import ProyectosService from '../AuthService.js';
 import {
   VContainer,
   VCard,
@@ -90,29 +100,41 @@ export default {
 
   },
   setup() {
+    const proyectos = ref([]);
+    const items = ref([]);
     const editDialog = ref(false);
     const editedItem = ref({});
+
     const headers = ref([
       { text: 'ID', value: 'id' },
       { text: 'Nombre', value: 'nombre' },
-      { text: 'RFC', value: 'RFC' },
+      { text: 'RFC', value: 'rfc' },  // Asegúrate de que 'rfc' sea la propiedad correcta
       { text: 'Acciones', value: 'actions', sortable: false }
     ]);
 
-    const items = ref([]);
+    const cargarRegistros = async () => {
+      try {
+        const response = await AuthService.getDonadores();
+        if (response && response.length > 0) {
+          items.value = response; // Asumiendo que la respuesta ya es el array de datos
+        } else {
+          console.log('No se recibieron datos de donadores');
+        }
+      } catch (error) {
+        console.error('Error al cargar registros:', error);
+      }
+    };
 
-    onMounted(cargarRegistros);
+    onMounted(async () => {
+      try {
+        const response = await ProyectosService.getRegistrosProyectos();
+        proyectos.value = response.data;
+        await cargarRegistros(); // Ahora sí puedes usar await aquí
+      } catch (error) {
+        console.error('Error al cargar datos:', error);
+      }
+    });
 
-    function cargarRegistros() {
-      AuthService.getDonadores()
-        .then(data => {
-          items.value = data;
-        })
-        .catch(error => {
-          console.error('Error al cargar registros:', error);
-          // Manejo de errores, por ejemplo, mostrar un mensaje al usuario
-        });
-    }
 
     function addItem(newItem) {
       AuthService.addDonador(newItem)
@@ -126,8 +148,8 @@ export default {
     }
 
     function editItem(item) {
-      editedItem.value = { ...item }; // Copia el item a editar
-      editDialog.value = true; // Abre el diálogo
+      editedItem.value = { id: item.id, nombre: item.nombre, rfc: item.rfc }; // Ajusta según la estructura de tus datos
+      editDialog.value = true;
     }
 
     function closeEdit() {
@@ -140,7 +162,9 @@ export default {
           cargarRegistros();
           closeEdit();
         })
-        .catch(error => console.error('Error al editar:', error));
+        .catch(error => {
+          console.error('Error al editar:', error);
+        });
     }
 
     return { headers, items, editDialog, editedItem, addItem, editItem, deleteItem, closeEdit, saveEdit };

@@ -42,8 +42,8 @@
               </v-col>
               <v-col cols="12">
                 <v-textarea
-                  label="Descripción"
-                  v-model="editedItem.descripcion"
+                  label="RFC"
+                  v-model="editedItem.rfc"
                 ></v-textarea>
               </v-col>
               <!-- Agrega más campos si es necesario -->
@@ -63,7 +63,10 @@
 
 <script>
 import { ref, onMounted } from 'vue';
-import AuthService from '../DonatariosService.js'; // Asegúrate de que la ruta sea correcta
+import AuthService from '../DonatariosService.js';
+import ProyectosService from '../AuthService.js';
+
+
 import {
   VContainer,
   VCard,
@@ -89,6 +92,9 @@ export default {
 
   },
   setup() {
+    const proyectos = ref([]);
+    const donatarios = ref([]);
+    const items = ref([]);
     const editDialog = ref(false);
     const editedItem = ref({});
     const headers = ref([
@@ -98,9 +104,16 @@ export default {
       { text: 'Acciones', value: 'actions', sortable: false }
     ]);
 
-    const items = ref([]);
 
-    onMounted(cargarRegistros);
+
+    onMounted(async () => {
+      try {
+        proyectos.value = await ProyectosService.getRegistrosProyectos(); // Carga los proyectos
+        items.value = await AuthService.getDonatarios(); // Asegúrate de que esto devuelve un array
+      } catch (error) {
+        console.error('Error al cargar datos:', error);
+      }
+    });
 
     function cargarRegistros() {
       AuthService.getDonatarios()
@@ -139,8 +152,11 @@ export default {
           cargarRegistros();
           closeEdit();
         })
-        .catch(error => console.error('Error al editar:', error));
+        .catch(error => {
+          console.error('Error al editar:', error);
+        });
     }
+
 
     return { headers, items, editDialog, editedItem, addItem, editItem, deleteItem, closeEdit, saveEdit };
   }
